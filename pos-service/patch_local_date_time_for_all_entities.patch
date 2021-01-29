@@ -1,0 +1,444 @@
+Index: src/main/java/com/ris/inventory/pos/domain/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Order.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Order.java	(date 1589989591000)
+@@ -5,6 +5,7 @@
+ import org.hibernate.Interceptor;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.ArrayList;
+ import java.util.Date;
+ import java.util.List;
+@@ -46,7 +47,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -159,7 +160,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/domain/Customer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Customer.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Customer.java	(date 1589989626000)
+@@ -4,6 +4,7 @@
+ import com.ris.inventory.pos.util.enumeration.CustomerType;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.ArrayList;
+ import java.util.Date;
+ import java.util.List;
+@@ -49,7 +50,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -174,7 +175,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/model/dto/TransactionDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/model/dto/TransactionDTO.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/model/dto/TransactionDTO.java	(date 1589989763000)
+@@ -9,6 +9,7 @@
+ import com.ris.inventory.pos.util.enumeration.TransactionType;
+ import io.swagger.annotations.ApiModel;
+ 
++import java.time.LocalDateTime;
+ import java.util.Date;
+ 
+ @ApiModel(value = "Transaction", description = "Response for : Inner object of Invoice")
+@@ -41,7 +42,7 @@
+ 
+     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+     @JsonProperty("paymentDate")
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     private String location;
+ 
+@@ -144,11 +145,11 @@
+         this.type = type;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+-    public void setDateCreated(Date dateCreated) {
++    public void setDateCreated(LocalDateTime dateCreated) {
+         this.dateCreated = dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/domain/Tax.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Tax.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Tax.java	(date 1589989560000)
+@@ -1,6 +1,7 @@
+ package com.ris.inventory.pos.domain;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.Date;
+ 
+ public class Tax implements Auditable{
+@@ -26,7 +27,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -77,7 +78,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/domain/Product.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Product.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Product.java	(date 1589989569000)
+@@ -6,6 +6,7 @@
+ import com.ris.inventory.pos.util.enumeration.ProductStatus;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.Date;
+ 
+ @Entity
+@@ -82,7 +83,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -373,7 +374,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/model/Pagination.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/model/Pagination.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/model/Pagination.java	(date 1589987633000)
+@@ -1,9 +1,13 @@
+ package com.ris.inventory.pos.model;
+ 
+ import com.ris.inventory.pos.util.exception.InvalidPaginationException;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
+ 
+ public class Pagination {
+ 
++    private static final Logger logger = LoggerFactory.getLogger(Pagination.class);
++
+     private int count;
+ 
+     private int offset;
+@@ -45,6 +49,7 @@
+     }
+ 
+     public void verify(int count) {
++        logger.info("Count '{}' is added to the pagination.", count);
+         this.count = count;
+         if (this.limit <= 0 || this.offset <= 0 || this.offset == this.limit)
+             throw new InvalidPaginationException("Invalid pagination params");
+Index: src/main/java/com/ris/inventory/pos/domain/Address.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Address.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Address.java	(date 1589989631000)
+@@ -3,6 +3,7 @@
+ import com.ris.inventory.pos.model.co.AddressCO;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.Date;
+ 
+ @Entity
+@@ -37,7 +38,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -147,7 +148,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/domain/Transaction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Transaction.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Transaction.java	(date 1589989483000)
+@@ -10,6 +10,7 @@
+ import org.hibernate.Interceptor;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.Date;
+ 
+ @Entity
+@@ -62,7 +63,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -240,7 +241,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/domain/Delivery.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Delivery.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Delivery.java	(date 1589989603000)
+@@ -6,6 +6,7 @@
+ import com.ris.inventory.pos.util.enumeration.DeliveryStatus;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.Date;
+ 
+ @Entity
+@@ -42,7 +43,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -134,7 +135,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/domain/Payment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Payment.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Payment.java	(date 1589989582000)
+@@ -5,6 +5,7 @@
+ import com.ris.inventory.pos.util.enumeration.PaymentMethod;
+ 
+ import javax.persistence.*;
++import java.time.LocalDateTime;
+ import java.util.Date;
+ 
+ @Entity
+@@ -37,7 +38,7 @@
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = false, nullable = false)
+     @org.hibernate.annotations.CreationTimestamp
+-    private Date dateCreated;
++    private LocalDateTime dateCreated;
+ 
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(updatable = true)
+@@ -120,7 +121,7 @@
+         isDeleted = deleted;
+     }
+ 
+-    public Date getDateCreated() {
++    public LocalDateTime getDateCreated() {
+         return dateCreated;
+     }
+ 
+Index: src/main/java/com/ris/inventory/pos/repository/criteria/impl/TransactionRepositoryImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/repository/criteria/impl/TransactionRepositoryImpl.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/repository/criteria/impl/TransactionRepositoryImpl.java	(date 1589989674000)
+@@ -1,5 +1,6 @@
+ package com.ris.inventory.pos.repository.criteria.impl;
+ 
++import com.google.gson.Gson;
+ import com.ris.inventory.pos.domain.Order;
+ import com.ris.inventory.pos.domain.Transaction;
+ import com.ris.inventory.pos.model.Pagination;
+@@ -7,6 +8,7 @@
+ import com.ris.inventory.pos.util.enumeration.PaymentMethod;
+ import com.ris.inventory.pos.util.enumeration.TransactionStatus;
+ import com.ris.inventory.pos.util.enumeration.TransactionType;
++import org.hibernate.HibernateException;
+ import org.hibernate.Interceptor;
+ import org.hibernate.Session;
+ import org.slf4j.Logger;
+@@ -18,6 +20,8 @@
+ import javax.persistence.criteria.CriteriaQuery;
+ import javax.persistence.criteria.Predicate;
+ import javax.persistence.criteria.Root;
++import java.time.LocalDateTime;
++import java.time.ZoneOffset;
+ import java.util.ArrayList;
+ import java.util.Date;
+ import java.util.List;
+@@ -398,13 +402,15 @@
+ 
+     @Override
+     public List<Transaction> findAllByDate(Pagination pagination, Date date) {
+-        logger.info("Getting all transactions by order {}");
++        logger.info("Getting all transactions by pagination {} and date {}", new Gson().toJson(pagination), date);
+ 
+         List<Transaction> transaction = new ArrayList<>();
+ 
+         try (Session session = getCurrentSession()) {
++            session.beginTransaction();
+             CriteriaBuilder builder = session.getCriteriaBuilder();
+ 
++/*
+             CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+             Root<Transaction> transactionRoot = countCriteria.from(Transaction.class);
+             countCriteria.select(builder.count(transactionRoot));
+@@ -412,20 +418,20 @@
+             countCriteria.where(builder.and(builder.isFalse(transactionRoot.get("isDeleted")),
+                     builder.notEqual(transactionRoot.get("method"), PaymentMethod.WAITING), builder.notEqual(transactionRoot.get("method"), PaymentMethod.ORDER_CHANGED),
+                     builder.equal(transactionRoot.get("dateCreated"), date)));
+-
+-            pagination.verify(session.createQuery(countCriteria).getSingleResult().intValue());
++*/
+ 
+             CriteriaQuery<Transaction> criteria = builder.createQuery(Transaction.class);
+             Root<Transaction> root = criteria.from(Transaction.class);
+ 
++            System.out.println("Date :" + new Date(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)));
+             criteria.select(root).where(builder.and(builder.isFalse(root.get("isDeleted")),
+                     builder.notEqual(root.get("method"), PaymentMethod.WAITING), builder.notEqual(root.get("method"), PaymentMethod.ORDER_CHANGED),
+-                    builder.equal(root.get("dateCreated"), date)));
+-
+-            transaction = session.createQuery(criteria).setFirstResult(pagination.getOffset()).setMaxResults(pagination.getLimit()).getResultList();
+-        } catch (Exception ex) {
++                    builder.equal(root.get("dateCreated"), LocalDateTime.now())));
++            transaction = session.createQuery(criteria).getResultList();
++            session.getTransaction().commit();
++        } catch (HibernateException ex) {
+             ex.printStackTrace();
+-            logger.error("Exception while getting all transactions of order by order");
++            logger.error("Exception while getting all transactions by pagination and date ");
+         }
+         return transaction;
+     }
+Index: src/main/java/com/ris/inventory/pos/domain/Auditable.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/domain/Auditable.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/domain/Auditable.java	(date 1589989560000)
+@@ -1,10 +1,10 @@
+ package com.ris.inventory.pos.domain;
+ 
+-import java.util.Date;
++import java.time.LocalDateTime;
+ 
+ public interface Auditable {
+ 
+     public Long getId();
+ 
+-    public Date getDateCreated();
++    public LocalDateTime getDateCreated();
+ }
+Index: src/main/java/com/ris/inventory/pos/repository/criteria/impl/GenericRepositoryImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/repository/criteria/impl/GenericRepositoryImpl.java	(date 1589985540000)
++++ src/main/java/com/ris/inventory/pos/repository/criteria/impl/GenericRepositoryImpl.java	(date 1589989724000)
+@@ -179,7 +179,8 @@
+             @Override
+             public int compare(T o1, T o2) {
+                 if ("dateCreated".equals(column)) {
+-                    return o1.getDateCreated().after(o2.getDateCreated()) ? -1 : 0;
++//                    return o1.getDateCreated().after(o2.getDateCreated()) ? -1 : 0;
++   return 0;
+                 }
+                 return o1.getId() > o2.getId() ? -1 : 0;
+             }

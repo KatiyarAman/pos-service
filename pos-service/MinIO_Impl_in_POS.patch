@@ -1,0 +1,83 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(date 1601469824000)
++++ pom.xml	(date 1601545789000)
+@@ -78,6 +78,12 @@
+             </exclusions>
+         </dependency>
+ 
++        <dependency>
++            <groupId>io.minio</groupId>
++            <artifactId>minio</artifactId>
++            <version>7.1.4</version>
++        </dependency>
++
+         <!-- Document Reader and Writer Libs  -->
+         <dependency>
+             <groupId>org.apache.pdfbox</groupId>
+Index: src/main/java/com/ris/inventory/pos/util/DocumentUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/ris/inventory/pos/util/DocumentUtil.java	(date 1601469824000)
++++ src/main/java/com/ris/inventory/pos/util/DocumentUtil.java	(date 1601800473000)
+@@ -3,6 +3,11 @@
+ import com.ris.inventory.pos.config.ApplicationConfig;
+ import com.ris.inventory.pos.model.dto.DownloadDTO;
+ import com.ris.inventory.pos.util.enumeration.ReportType;
++import io.minio.BucketExistsArgs;
++import io.minio.MakeBucketArgs;
++import io.minio.MinioClient;
++import io.minio.PutObjectArgs;
++import io.minio.errors.MinioException;
+ import org.apache.commons.csv.CSVFormat;
+ import org.apache.commons.csv.CSVPrinter;
+ import org.apache.pdfbox.pdmodel.PDDocument;
+@@ -18,12 +23,13 @@
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.core.io.ClassPathResource;
+ import org.springframework.stereotype.Component;
+ import org.springframework.util.FileCopyUtils;
+ 
+ import javax.servlet.http.HttpServletResponse;
+ import java.io.*;
++import java.security.InvalidKeyException;
++import java.security.NoSuchAlgorithmException;
+ import java.util.ArrayList;
+ import java.util.Date;
+ import java.util.List;
+@@ -218,6 +224,28 @@
+         return reportType.getType() + "_" + new Date().getTime() + extension;
+     }
+ 
++    public void upload(String bucketName, String fileName, long size, String contentType, InputStream inputStream) {
++        try {
++            // Create a minioClient with the MinIO Server name, Port, Access key and Secret key.
++            MinioClient.Builder minioClient = new MinioClient.Builder();
++            minioClient.endpoint("http://media.sbmurban.org");
++            minioClient.credentials("8ngv6i97QZV959Y87Y007FP", "SKFzHq5iDoQgF7gyPYRFhzNMYSvY6ZFMpH");
++            MinioClient client = minioClient.build();
++
++            // Check if the bucket already exists.
++            boolean isExist = client.bucketExists(BucketExistsArgs.builder().bucket (bucketName).build());
++
++            if (isExist)
++                client.putObject(PutObjectArgs.builder().bucket(bucketName).object(fileName).stream(inputStream, size, -1).contentType(contentType).build());
++            else
++                // Make a new bucket called asiatrip to hold a zip file of photos.
++                client.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
++        } catch (MinioException | NoSuchAlgorithmException | IOException | InvalidKeyException e) {
++            e.printStackTrace();
++        }
++    }
++
++
+     public void send(HttpServletResponse response, File file) throws IOException {
+         logger.info("Sending file {}", file);
+ 
